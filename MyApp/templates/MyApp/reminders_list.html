@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Reminders</title>
+
+    <style>
+        body {
+            font-family: "Comic Sans MS", cursive;
+            background-color: #e8dccd;
+            background-image:
+                radial-gradient(ellipse at 15% 20%, rgba(255, 255, 255, 0.45), transparent 28%),
+                radial-gradient(ellipse at 85% 75%, rgba(185, 155, 128, 0.2), transparent 30%);
+            margin: 0;
+            padding: 30px 16px;
+            color: #5a3825;
+        }
+
+        .container {
+            max-width: 760px;
+            margin: 20px auto;
+        }
+
+        .paper {
+            padding: 28px;
+            background-color: #fffaf0;
+            background-image:
+                linear-gradient(135deg, transparent 49%, rgba(185, 155, 128, 0.09) 50%, transparent 51%),
+                linear-gradient(35deg, transparent 49%, rgba(185, 155, 128, 0.07) 50%, transparent 51%);
+            border: 2px solid #806048;
+            border-radius: 8px 5px 9px 6px;
+            box-shadow: 6px 7px 0 #b99b80;
+        }
+
+        h1 {
+            margin: 0;
+            text-align: center;
+            font-size: 30px;
+        }
+
+        .intro {
+            margin: 8px 0 22px;
+            color: #806048;
+            text-align: center;
+        }
+
+        .add-button {
+            display: block;
+            width: fit-content;
+            margin: 0 auto 24px;
+            padding: 11px 18px;
+            background-color: #7b4f35;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border: 2px solid #5a3825;
+            border-radius: 5px 7px 5px 6px;
+            box-shadow: 3px 3px 0 #b99b80;
+        }
+
+        .add-button:hover {
+            background-color: #5f3926;
+        }
+
+        .reminder {
+            margin-bottom: 18px;
+            padding: 18px;
+            background-color: #f4e5cf;
+            border: 2px solid #b99b80;
+            border-radius: 7px 5px 8px 6px;
+            box-shadow: 3px 3px 0 rgba(128, 96, 72, 0.25);
+        }
+
+        .reminder:last-child {
+            margin-bottom: 0;
+        }
+
+        .reminder h2 {
+            margin: 0 0 14px;
+            overflow-wrap: anywhere;
+            color: #7b4f35;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .detail {
+            margin: 0;
+            padding: 11px;
+            background-color: #fffaf0;
+            border: 1px solid #d1b79b;
+            border-radius: 5px 7px 5px 6px;
+            color: #65432d;
+            overflow-wrap: anywhere;
+        }
+
+        .detail strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #806048;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .action-button {
+            display: inline-block;
+            padding: 8px 14px;
+            border: 2px solid #5a3825;
+            border-radius: 5px 7px 5px 6px;
+            box-shadow: 2px 2px 0 #b99b80;
+            color: white;
+            text-decoration: none;
+        }
+
+        .edit-button {
+            background-color: #9a6b48;
+        }
+
+        .edit-button:hover {
+            background-color: #7b4f35;
+        }
+
+        .delete-button {
+            background-color: #a85d4d;
+        }
+
+        .delete-button:hover {
+            background-color: #843f32;
+        }
+
+        .empty {
+            padding: 24px;
+            background-color: #f6e8b9;
+            border: 2px solid #b99b80;
+            border-radius: 7px 5px 8px 6px;
+            text-align: center;
+            box-shadow: 3px 3px 0 rgba(128, 96, 72, 0.25);
+        }
+
+        .empty h2 {
+            margin-top: 0;
+            color: #7b4f35;
+        }
+
+        .empty p {
+            margin-bottom: 0;
+            color: #65432d;
+        }
+
+        @media (max-width: 520px) {
+            .paper {
+                padding: 22px 16px;
+            }
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <main class="paper">
+        <h1>📋 My Reminders</h1>
+        <p class="intro">Little notes to help you remember the important things.</p>
+
+        <a href="{% url 'add_reminder' %}" class="add-button">
+            ➕ Add New Reminder
+        </a>
+
+        {% if reminders %}
+            {% for reminder in reminders %}
+                <section class="reminder">
+                    <h2>🔔 {{ reminder.item_name }}</h2>
+
+                    <div class="details">
+                        <p class="detail">
+                            <strong>Category</strong>
+                            {{ reminder.category }}
+                        </p>
+                        <p class="detail">
+                            <strong>Date</strong>
+                            {{ reminder.date }}
+                        </p>
+                        <p class="detail">
+                            <strong>Time</strong>
+                            {{ reminder.time }}
+                        </p>
+                        <p class="detail">
+                            <strong>Status</strong>
+                            {{ reminder.status }}
+                        </p>
+                        <p class="detail">
+                            <strong>Notes</strong>
+                            {{ reminder.notes }}
+                        </p>
+                    </div>
+
+                    <div class="actions">
+                        <a href="{% url 'edit_reminder' reminder.reminder_id %}"
+                           class="action-button edit-button">
+                            ✏️ Edit
+                        </a>
+                        <a href="{% url 'delete_reminder' reminder.reminder_id %}"
+                           class="action-button delete-button">
+                            🗑️ Delete
+                        </a>
+                    </div>
+                </section>
+            {% endfor %}
+        {% else %}
+            <section class="empty">
+                <h2>No reminders yet 📭</h2>
+                <p>Click "Add New Reminder" to create your first reminder.</p>
+            </section>
+        {% endif %}
+    </main>
+</div>
+
+</body>
+</html>

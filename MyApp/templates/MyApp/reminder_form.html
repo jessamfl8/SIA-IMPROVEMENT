@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Reminder System</title>
+
+    <style>
+        body {
+            font-family: "Comic Sans MS", cursive;
+            background-color: #e8dccd;
+            background-image:
+                radial-gradient(ellipse at 15% 20%, rgba(255, 255, 255, 0.45), transparent 28%),
+                radial-gradient(ellipse at 85% 75%, rgba(185, 155, 128, 0.2), transparent 30%);
+            margin: 0;
+            padding: 30px 16px;
+            color: #5a3825;
+        }
+
+        .container {
+            max-width: 560px;
+            margin: 20px auto;
+        }
+
+        .paper {
+            padding: 30px;
+            background-color: #fffaf0;
+            background-image:
+                linear-gradient(135deg, transparent 49%, rgba(185, 155, 128, 0.09) 50%, transparent 51%),
+                linear-gradient(35deg, transparent 49%, rgba(185, 155, 128, 0.07) 50%, transparent 51%);
+            border: 2px solid #806048;
+            border-radius: 8px 5px 9px 6px;
+            box-shadow: 6px 7px 0 #b99b80;
+        }
+
+        h1 {
+            margin: 0;
+            text-align: center;
+            font-size: 30px;
+        }
+
+        .intro {
+            margin: 8px 0 22px;
+            color: #806048;
+            text-align: center;
+        }
+
+        form p {
+            margin: 0 0 13px;
+            padding: 13px;
+            background-color: #f4e5cf;
+            border: 1px solid #b99b80;
+            border-radius: 6px 5px 7px 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #65432d;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 2px solid #b99b80;
+            border-radius: 5px 7px 5px 6px;
+            background-color: #fffaf0;
+            color: #5a3825;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #7b4f35;
+            outline: 2px solid rgba(123, 79, 53, 0.2);
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .helptext {
+            display: block;
+            margin-top: 5px;
+            color: #806048;
+            font-size: 12px;
+        }
+
+        .errorlist {
+            color: #a32626;
+            font-size: 13px;
+        }
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            width: auto;
+        }
+
+        .save-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #7b4f35;
+            color: white;
+            border: 2px solid #5a3825;
+            border-radius: 5px 7px 5px 6px;
+            font-family: "Comic Sans MS", cursive;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 3px 3px 0 #b99b80;
+        }
+
+        .save-button:hover {
+            background-color: #5f3926;
+        }
+
+        .view-button {
+            display: block;
+            margin-top: 20px;
+            color: #7b4f35;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .view-button:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 520px) {
+            .paper {
+                padding: 22px 16px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <main class="paper">
+
+        <h1>🔔 Personal Reminder</h1>
+
+        <p class="intro">
+            Write down a little note for your future self.
+        </p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit" class="save-button">
+                💾 Save Reminder
+            </button>
+        </form>
+
+        <a href="{% url 'reminder_list' %}" class="view-button">
+            📋 View My Reminders
+        </a>
+
+    </main>
+</div>
+
+</body>
+</html>

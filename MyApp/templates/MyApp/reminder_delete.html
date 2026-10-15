@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Reminder</title>
+
+    <style>
+        body {
+            font-family: "Comic Sans MS", cursive;
+            background-color: #e8dccd;
+            background-image:
+                radial-gradient(ellipse at 15% 20%, rgba(255, 255, 255, 0.45), transparent 28%),
+                radial-gradient(ellipse at 85% 75%, rgba(185, 155, 128, 0.2), transparent 30%);
+            margin: 0;
+            padding: 30px 16px;
+            color: #5a3825;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 30px auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 18px;
+            color: #70492f;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .paper {
+            position: relative;
+            overflow: hidden;
+            padding: 32px;
+            background-color: #fffaf0;
+            background-image:
+                linear-gradient(135deg, transparent 49%, rgba(185, 155, 128, 0.09) 50%, transparent 51%),
+                linear-gradient(35deg, transparent 49%, rgba(185, 155, 128, 0.07) 50%, transparent 51%);
+            border: 2px solid #806048;
+            border-radius: 8px 5px 9px 6px;
+            box-shadow: 6px 7px 0 #b99b80;
+        }
+
+        .paper:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            border-top: 38px solid #e8dccd;
+            border-left: 38px solid transparent;
+        }
+
+        .heading {
+            margin: 0 0 8px;
+            text-align: center;
+            font-size: 30px;
+        }
+
+        .intro {
+            margin: 0 0 24px;
+            color: #806048;
+            text-align: center;
+        }
+
+        .bento {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 14px;
+        }
+
+        .tile {
+            padding: 18px;
+            border: 2px solid #b99b80;
+            border-radius: 7px 5px 8px 6px;
+            box-shadow: 3px 3px 0 rgba(128, 96, 72, 0.25);
+        }
+
+        .reminder-tile {
+            background-color: #f4e5cf;
+        }
+
+        .note-tile {
+            background-color: #f6e8b9;
+        }
+
+        .tile-label {
+            margin: 0 0 10px;
+            color: #806048;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .item-name {
+            margin: 0;
+            overflow-wrap: anywhere;
+            font-size: 22px;
+        }
+
+        .note-tile p:last-child {
+            margin-bottom: 0;
+            line-height: 1.5;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .button {
+            padding: 11px 18px;
+            border: 2px solid #5a3825;
+            border-radius: 5px 7px 5px 6px;
+            box-shadow: 3px 3px 0 #b99b80;
+            font-family: "Comic Sans MS", cursive;
+            font-size: 15px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .delete-button {
+            background-color: #a85d4d;
+            color: white;
+        }
+
+        .delete-button:hover {
+            background-color: #843f32;
+        }
+
+        .cancel-button {
+            background-color: #fffaf0;
+            color: #5a3825;
+        }
+
+        .cancel-button:hover {
+            background-color: #f4e5cf;
+        }
+
+        @media (max-width: 520px) {
+            .paper {
+                padding: 24px 18px;
+            }
+
+            .bento {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+                box-sizing: border-box;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <a href="{% url 'reminder_list' %}" class="back-link">← Back to my reminders</a>
+
+    <main class="paper">
+        <h1 class="heading">🗑️ Delete reminder?</h1>
+        <p class="intro">Just checking before this note goes in the bin.</p>
+
+        <div class="bento">
+            <section class="tile reminder-tile">
+                <p class="tile-label">The reminder</p>
+                <h2 class="item-name">{{ reminder.item_name }}</h2>
+            </section>
+
+            <section class="tile note-tile">
+                <p class="tile-label">One last check</p>
+                <p>This reminder will be permanently deleted.</p>
+            </section>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="actions">
+                <button type="submit" class="button delete-button">Yes, delete it</button>
+                <a href="{% url 'reminder_list' %}" class="button cancel-button">Keep reminder</a>
+            </div>
+        </form>
+    </main>
+</div>
+
+</body>
+</html>
